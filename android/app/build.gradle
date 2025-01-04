@@ -8,8 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "
-    "
+    namespace = "com.example.firebase_trial"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
