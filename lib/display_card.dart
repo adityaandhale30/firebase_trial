@@ -92,24 +92,34 @@
 //   }
 // }
 
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DisplayCard extends StatelessWidget {
-  List<String> imageUrls = [
-    'https://via.placeholder.com/150',
-    'https://via.placeholder.com/200',
-    'https://via.placeholder.com/250',
-    'https://via.placeholder.com/300',
-    'https://via.placeholder.com/350',
-    'https://via.placeholder.com/400',
-  ];
+  List<Map<String, dynamic>> imageUrls = [];
 
   DisplayCard({super.key});
 
-  Future<List<String>> fetchImages() async {
+  Future<List<Map<String, dynamic>>> fetchImages() async {
     // Simulate a network delay
     await Future.delayed(Duration(seconds: 2));
+
+    QuerySnapshot responce =
+        await FirebaseFirestore.instance.collection("Gavhane").get();
+    imageUrls.clear();
+
+    for (int i = 0; i < responce.docs.length; i++) {
+      log(responce.docs[i]["iq"]);
+
+      imageUrls
+          .add({"iq": responce.docs[i]["iq"], 
+         // "age": responce.docs[i]["uid"]
+          });
+    }
+
     return imageUrls;
   }
 
@@ -119,7 +129,7 @@ class DisplayCard extends StatelessWidget {
       appBar: AppBar(
         title: Text('Shimmer with Network Images'),
       ),
-      body: FutureBuilder<List<String>>(
+      body: FutureBuilder<List<Map<String, dynamic>>>(
         future: fetchImages(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -169,7 +179,7 @@ class DisplayCard extends StatelessWidget {
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      snapshot.data![index],
+                      snapshot.data![index]["iq"],
                       fit: BoxFit.cover,
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) {
@@ -192,7 +202,9 @@ class DisplayCard extends StatelessWidget {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        fetchImages();
+      }),
     );
   }
 }
-
