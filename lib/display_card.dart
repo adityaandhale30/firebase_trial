@@ -108,16 +108,16 @@ class DisplayCard extends StatelessWidget {
     await Future.delayed(Duration(seconds: 2));
 
     QuerySnapshot responce =
-        await FirebaseFirestore.instance.collection("Gavhane").get();
+        await FirebaseFirestore.instance.collection("ImageTrial").get();
     imageUrls.clear();
 
     for (int i = 0; i < responce.docs.length; i++) {
       log(responce.docs[i]["iq"]);
 
-      imageUrls
-          .add({"iq": responce.docs[i]["iq"], 
-         // "age": responce.docs[i]["uid"]
-          });
+      imageUrls.add({
+        "iq": responce.docs[i]["iq"],
+        // "age": responce.docs[i]["uid"]
+      });
     }
 
     return imageUrls;
@@ -202,8 +202,13 @@ class DisplayCard extends StatelessWidget {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        fetchImages();
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        await fetchImages();
+
+        FirebaseFirestore.instance
+            .collection("ImageTrial")
+            .doc("8PYrBzzEePC1eitCfHeN")
+            .delete();
       }),
     );
   }
