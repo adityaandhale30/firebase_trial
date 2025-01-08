@@ -2,13 +2,9 @@
 // import 'package:firebase_trial/homepage_screen.dart';
 // import 'package:flutter/material.dart';
 
-import 'dart:developer';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_trial/view/animation_trial.dart';
 import 'package:flutter/material.dart';
-
-import 'Authentication/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +24,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: ScaleTransitionDemo(),
     );
   }
 }

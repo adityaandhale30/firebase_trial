@@ -118,6 +118,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   log("${error.message}");
                 }
               } else {}
+
+              Navigator.of(context).pop();
             },
             child: Container(
               decoration: BoxDecoration(
